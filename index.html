@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>本地待办清单</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="app-header">
+      <h1>本地待办清单</h1>
+      <p class="app-hint">输入任务后按回车或点“添加”。数据保存在本机浏览器里，关闭页面后仍会保留。</p>
+    </header>
+
+    <form id="todo-form" class="todo-form" autocomplete="off">
+      <label class="sr-only" for="todo-input">任务内容</label>
+      <input
+        id="todo-input"
+        class="todo-input"
+        type="text"
+        name="text"
+        placeholder="例如：买牛奶"
+        aria-describedby="input-message"
+      />
+      <button type="submit" class="btn btn-add">添加</button>
+    </form>
+
+    <p id="input-message" class="input-message" role="status" aria-live="polite"></p>
+
+    <p id="count" class="count" aria-live="polite"></p>
+
+    <ul id="todo-list" class="todo-list"></ul>
+
+    <p id="empty-state" class="empty-state" hidden>
+      还没有任务，在上方输入框添加第一条吧。
+    </p>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
