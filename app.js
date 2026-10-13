@@ -88,6 +88,22 @@
     return -1;
   }
 
+  function focusControl(id, action) {
+    var items = list.children;
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].dataset && items[i].dataset.id === id) {
+        var children = items[i].children;
+        for (var j = 0; j < children.length; j++) {
+          if (children[j].dataset && children[j].dataset.action === action) {
+            children[j].focus();
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
   function addTodo(rawText) {
     var text = rawText.trim();
     if (!text) {
@@ -114,7 +130,7 @@
     }
     todos[index].done = !todos[index].done;
     save();
-    render();
+    render({ id: id, action: "toggle" });
   }
 
   function removeTodo(id) {
@@ -125,10 +141,14 @@
     }
     todos.splice(index, 1);
     save();
-    render();
+    var fallback = todos[index] || todos[index - 1] || null;
+    render(fallback ? { id: fallback.id, action: "delete" } : null);
+    if (!fallback) {
+      input.focus();
+    }
   }
 
-  function render() {
+  function render(focusSpec) {
     list.textContent = "";
     var doneCount = 0;
 
@@ -173,6 +193,10 @@
       todos.length === 0
         ? ""
         : "共 " + todos.length + " 条，完成 " + doneCount + " 条";
+
+    if (focusSpec) {
+      focusControl(focusSpec.id, focusSpec.action);
+    }
   }
 
   form.addEventListener("submit", function (event) {
